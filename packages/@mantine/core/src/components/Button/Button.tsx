@@ -89,6 +89,9 @@ export interface ButtonProps extends BoxProps, StylesApiProps<ButtonFactory> {
 
   /** Determines whether button text color with filled variant should depend on `background-color`. If luminosity of the `color` prop is less than `theme.luminosityThreshold`, then `theme.white` will be used for text color, otherwise `theme.black`. Overrides `theme.autoContrast`. */
   autoContrast?: boolean;
+
+  /** Determine whether button will have hover effect */
+  disableHover?: boolean;
 }
 
 export type ButtonFactory = PolymorphicFactory<{
@@ -114,7 +117,7 @@ const loaderTransition: MantineTransition = {
 const defaultProps: Partial<ButtonProps> = {};
 
 const varsResolver = createVarsResolver<ButtonFactory>(
-  (theme, { radius, color, gradient, variant, size, justify, autoContrast }) => {
+  (theme, { radius, color, gradient, variant, size, justify, autoContrast, disableHover }) => {
     const colors = theme.variantColorResolver({
       color: color || theme.primaryColor,
       theme,
@@ -133,10 +136,18 @@ const varsResolver = createVarsResolver<ButtonFactory>(
           : getFontSize(size),
         '--button-radius': radius === undefined ? undefined : getRadius(radius),
         '--button-bg': color || variant ? colors.background : undefined,
-        '--button-hover': color || variant ? colors.hover : undefined,
+        '--button-hover': disableHover
+          ? colors.background
+          : color || variant
+            ? colors.hover
+            : undefined,
         '--button-color': colors.color,
         '--button-bd': color || variant ? colors.border : undefined,
-        '--button-hover-color': color || variant ? colors.hoverColor : undefined,
+        '--button-hover-color': disableHover
+          ? colors.color
+          : color || variant
+            ? colors.hoverColor
+            : undefined,
       },
     };
   }

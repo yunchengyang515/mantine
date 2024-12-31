@@ -28,6 +28,11 @@ export const Demo_loading = {
   render: renderDemo(demos.loading),
 };
 
+export const Demo_disableHover = {
+  name: '⭐ Demo: disableHover',
+  render: renderDemo(demos.disableHover),
+};
+
 export const Demo_loaderProps = {
   name: '⭐ Demo: loaderProps',
   render: renderDemo(demos.loaderProps),
